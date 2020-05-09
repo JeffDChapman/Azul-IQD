@@ -1,0 +1,10 @@
+C:\Users\JeffC\Documents\Visual Studio 2013\Projects\AliasGen\AliasGen\bin\Debug\AliasGen.exe.config
+C:\Users\JeffC\Documents\Visual Studio 2013\Projects\AliasGen\AliasGen\bin\Debug\AliasGen.exe
+C:\Users\JeffC\Documents\Visual Studio 2013\Projects\AliasGen\AliasGen\bin\Debug\AliasGen.pdb
+C:\Users\JeffC\Documents\Visual Studio 2013\Projects\AliasGen\AliasGen\obj\Debug\AzulIQD.csprojResolveAssemblyReference.cache
+C:\Users\JeffC\Documents\Visual Studio 2013\Projects\AliasGen\AliasGen\obj\Debug\AzulIQD.InputName.resources
+C:\Users\JeffC\Documents\Visual Studio 2013\Projects\AliasGen\AliasGen\obj\Debug\AzulIQD.Properties.Resources.resources
+C:\Users\JeffC\Documents\Visual Studio 2013\Projects\AliasGen\AliasGen\obj\Debug\AzulIQD.TableDisplayer.resources
+C:\Users\JeffC\Documents\Visual Studio 2013\Projects\AliasGen\AliasGen\obj\Debug\AzulIQD.csproj.GenerateResource.Cache
+C:\Users\JeffC\Documents\Visual Studio 2013\Projects\AliasGen\AliasGen\obj\Debug\AliasGen.exe
+C:\Users\JeffC\Documents\Visual Studio 2013\Projects\AliasGen\AliasGen\obj\Debug\AliasGen.pdb
