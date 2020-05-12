@@ -42,6 +42,7 @@ namespace AzulIQD
         private string bsqFromClause;
         private string bsqExtrasClause;
         private QueryOptions getQO;
+        private int qpIndex;
         
         public JoinForm(TableDisplayer parent) 
         {
@@ -110,6 +111,17 @@ namespace AzulIQD
             return myCC;
         }
 
+        private ColumnChooser GetTheColumns(List<string> checkedColumns)
+        {
+            GetTheColumns();
+            foreach (string oneCol in checkedColumns)
+            {
+                int Foundloc = myCC.lbColumnLister.FindStringExact(oneCol);
+                myCC.lbColumnLister.SetItemChecked(Foundloc, true);
+            }
+            return myCC;
+        }
+
         public void JFaddMoreTables()
         {
             foreach (object OneTab in passedJoinedTabs)
@@ -173,7 +185,7 @@ namespace AzulIQD
         private void btnDoneJoinCs_Click(object sender, EventArgs e)
         {
             this.gbColsJoin.Visible = false;
-            GetColsToShowRight(myCC);
+            if (!GetColsToShowRight(myCC)) { return;  }
             Application.DoEvents();
 
             // store info to internal struct list
@@ -206,7 +218,7 @@ namespace AzulIQD
             this.Show();
         }       
         
-        private void GetColsToShowRight(ColumnChooser myCC)
+        private bool GetColsToShowRight(ColumnChooser myCC)
         {
             this.Hide();
             Application.DoEvents();
@@ -214,14 +226,9 @@ namespace AzulIQD
 
             if (GetReturnedColumns().Count == 0)
             {
-                lbJoined.ClearSelected();
-                lbUnjoined.ClearSelected();
-                while (lbJoined.CheckedIndices.Count > 0)
-                { lbJoined.SetItemChecked(lbJoined.CheckedIndices[0], false); }
-                while (lbUnjoined.CheckedIndices.Count > 0)
-                { lbUnjoined.SetItemChecked(lbUnjoined.CheckedIndices[0], false); }
-                AdjustJoinButtons();
+                UndoTheJoin();
                 myCC.Close();
+                return false;
             }
 
             var myqTinfo = new queryTabInfo();
@@ -229,13 +236,27 @@ namespace AzulIQD
             myqTinfo.showColumns = GetReturnedColumns();
 
             myCC.Close();
+            return true;
+        }
+
+        private void UndoTheJoin()
+        {
+            lbJoined.ClearSelected();
+            lbUnjoined.ClearSelected();
+            while (lbJoined.CheckedIndices.Count > 0)
+                { lbJoined.SetItemChecked(lbJoined.CheckedIndices[0], false); }
+            while (lbUnjoined.CheckedIndices.Count > 0)
+                { lbUnjoined.SetItemChecked(lbUnjoined.CheckedIndices[0], false); }
+            AdjustJoinButtons();
         }
 
         private queryTabInfo getQTinfoFor(string TableToLookup)
         {
+            qpIndex = 0;
             foreach (queryTabInfo QTinfo in queryParms)
             {
                 if (QTinfo.TableName == TableToLookup) { return QTinfo; }
+                qpIndex++;
             }
             return new queryTabInfo();
         }
@@ -290,8 +311,9 @@ namespace AzulIQD
                         bsqFromClause += " = ";
                         queryTabInfo ToTabInfo = getQTinfoFor(oneTabInfo.JoiningTo);
                         string toJoinAlias = ToTabInfo.Alias;
-                        bsqFromClause += GetFieldName(oneTabInfo.JoiningTo, toJoinAlias, oneTabInfo.ToJoinColumns[i]) + " ";
+                        bsqFromClause += GetFieldName(oneTabInfo.JoiningTo, toJoinAlias, oneTabInfo.ToJoinColumns[i]) + " AND ";
                     }
+                    bsqFromClause = bsqFromClause.Substring(0, bsqFromClause.Length - 4);
                 }
             }
 
@@ -313,6 +335,8 @@ namespace AzulIQD
             {
                 queryTabInfo oneTabInfo = queryParms[i];
                 string thisAlias = myLogicClass.SuggestAlias(oneTabInfo.TableName);
+                if (thisAlias.Length == 1) { thisAlias = thisAlias.ToUpper(); }
+                    else { thisAlias = thisAlias.ToLower(); }
                 oneTabInfo.Alias = thisAlias;
                 queryParms[i] = oneTabInfo;
             }
@@ -334,6 +358,8 @@ namespace AzulIQD
             }
             if (lbUnjoined.Items.Count == 0) { btnNext.Enabled = true; }
                 else { btnNext.Enabled = false; }
+            if (lbJoined.CheckedItems.Count == 1) { btnEdit.Enabled = true; }
+                else { btnEdit.Enabled = false; }
         }
 
         private void clbLeftCols_SelectedIndexChanged(object sender, EventArgs e)
@@ -355,13 +381,6 @@ namespace AzulIQD
             else { btnDoneJoinCs.Enabled = false; }
         }
 
-        private void JoinForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            this.Hide();
-            frmTabDispParent.Show();
-            e.Cancel = true;
-        }
-
         private void btnClear_Click(object sender, EventArgs e)
         {
             lbUnjoined.Items.Clear();
@@ -369,5 +388,38 @@ namespace AzulIQD
             this.Refresh();
         }
 
-   }
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            TabThatNeedsCols = lbJoined.CheckedItems[0];
+            queryTabInfo myTabInfo = getQTinfoFor(TabThatNeedsCols.ToString());
+            List<string> alreadyChecked = myTabInfo.showColumns;
+            myCC = GetTheColumns(alreadyChecked);
+            Application.DoEvents();
+            myCC.ShowDialog();
+
+            if (GetReturnedColumns().Count == 0)
+            {
+                // what happens if they deselect all the columns?
+            }
+
+            myTabInfo.showColumns = GetReturnedColumns();
+            queryParms[qpIndex] = myTabInfo;
+            myCC.Close();
+        }
+
+        private void JoinForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.gbColsJoin.Visible)
+            {
+                this.gbColsJoin.Visible = false;
+                UndoTheJoin();
+                e.Cancel = true;
+                return;
+            }
+            this.Hide();
+            frmTabDispParent.Show();
+            e.Cancel = true;
+        }
+
+    }
 }
