@@ -48,6 +48,7 @@
             this.lbRightJoinCols = new System.Windows.Forms.CheckedListBox();
             this.lbLeftJoinCols = new System.Windows.Forms.CheckedListBox();
             this.btnClear = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
             this.gbColsJoin.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -260,12 +261,24 @@
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
+            // btnEdit
+            // 
+            this.btnEdit.Enabled = false;
+            this.btnEdit.Image = global::AzulIQD.Properties.Resources.Pencil;
+            this.btnEdit.Location = new System.Drawing.Point(332, 381);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(48, 43);
+            this.btnEdit.TabIndex = 11;
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
             // JoinForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(820, 590);
             this.Controls.Add(this.gbColsJoin);
+            this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnNext);
             this.Controls.Add(this.btnRjoin);
@@ -307,6 +320,7 @@
         private System.Windows.Forms.CheckedListBox clbLeftCols;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Button btnEdit;
 
 
 

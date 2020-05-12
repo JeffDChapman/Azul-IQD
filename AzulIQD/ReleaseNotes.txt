@@ -1,0 +1,5 @@
+05/10/2020 -- V 1.0 Initial Release
+05/11/2020 -- V 1.1 Add Edit Button
+					Fix bug on connecting to SQL Server
+					Fix bug of missing AND for multi-join columns
+					Fix bug closing join columns

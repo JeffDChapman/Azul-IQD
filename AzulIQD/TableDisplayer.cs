@@ -103,9 +103,11 @@ namespace AzulIQD
         private void ConnectToAzure()
         {
             this.Cursor = Cursors.WaitCursor;
-            myConxString = "Server=tcp:" + AzureServer;
-            if (AzureConx) { myConxString += ".database.windows.net"; }
-            myConxString += ",1433;Initial Catalog=" + myAzureDBName;
+            myConxString = "Server=";
+            if (AzureConx) { myConxString += "tcp:"; }
+            myConxString += AzureServer;
+            if (AzureConx) { myConxString += ".database.windows.net,1433"; }
+            myConxString += ";Initial Catalog=" + myAzureDBName;
             if (myUserID == "")
                 { myConxString += ";Integrated Security=true"; }
             else
@@ -113,8 +115,8 @@ namespace AzulIQD
             myConxString += ";Persist Security Info=False;User ID=";
             myConxString += myUserID + ";Password=" + myPW;
             }
-            myConxString += ";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;";
-            myConxString += "Connection Timeout=3;";
+            if (AzureConx) {myConxString += ";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False";}
+            myConxString += ";Connection Timeout=3;";
 
             // TODO: fix this mess. Maybe use a string.replace or add a DB connx object to form
             // also regular SQL connx still doesn't work
