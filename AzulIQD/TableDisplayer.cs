@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -27,7 +27,7 @@ namespace AzulIQD
         private JoinForm myJF;
         private bool dbIsConnected;
         private bool AzureConx = false;
-        private bool testing = true;
+        private bool testing = false;
         public SqlConnection DBConnection { get; set; }
         public FormLoc PlaceForms = new FormLoc();
 
