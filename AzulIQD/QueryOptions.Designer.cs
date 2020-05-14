@@ -281,6 +281,7 @@
             this.Controls.Add(this.btnNext);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "QueryOptions";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Query Options";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

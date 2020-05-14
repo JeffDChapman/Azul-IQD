@@ -12,14 +12,20 @@ namespace AzulIQD
     public partial class SQLdisplayer : Form
     {
         private int blinkCounter = 0;
-        public SQLdisplayer()
+        private JoinForm myJF;
+
+        public SQLdisplayer(JoinForm parent)
         {
             InitializeComponent();
+            myJF = parent;
+            this.Top = parent.frmTabDispParent.PlaceForms.topForm;
+            this.Left = parent.frmTabDispParent.PlaceForms.LeftForm;
         }
 
         private void btnCopy_Click(object sender, EventArgs e)
         {
             tbSQLstatement.Copy();
+            btnExit.Visible = false;
             tmrCopied.Enabled = true;
         }
 
@@ -34,9 +40,19 @@ namespace AzulIQD
             this.Refresh();
 
             if (blinkCounter > 5) 
-            { tmrCopied.Enabled = false;
+            { 
+                tmrCopied.Enabled = false;
+                btnExit.Visible = true;
                 blinkCounter = 0;
             }
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            myJF.Close();
+            myJF.frmTabDispParent.Close();
+            this.Close();
+            Application.Exit();
         }
     }
 }

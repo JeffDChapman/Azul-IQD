@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TableDisplayer));
             this.lbTableListing = new System.Windows.Forms.CheckedListBox();
             this.lblStillLoading = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -37,6 +38,8 @@
             this.tmDisplay = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.lblDBname = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // lbTableListing
@@ -100,7 +103,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(433, 93);
+            this.label1.Location = new System.Drawing.Point(426, 200);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(117, 20);
             this.label1.TabIndex = 5;
@@ -109,7 +112,7 @@
             // lblDBname
             // 
             this.lblDBname.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.lblDBname.Location = new System.Drawing.Point(433, 119);
+            this.lblDBname.Location = new System.Drawing.Point(426, 226);
             this.lblDBname.Name = "lblDBname";
             this.lblDBname.Size = new System.Drawing.Size(117, 20);
             this.lblDBname.TabIndex = 6;
@@ -117,11 +120,22 @@
             this.lblDBname.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.lblDBname.Click += new System.EventHandler(this.lblDBname_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(441, 30);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(92, 92);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 7;
+            this.pictureBox1.TabStop = false;
+            // 
             // TableDisplayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(573, 660);
+            this.ClientSize = new System.Drawing.Size(561, 660);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblDBname);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCancel);
@@ -133,7 +147,9 @@
             this.Text = " Add Tables";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TableDisplayer_FormClosing);
             this.Load += new System.EventHandler(this.TableDisplayer_Load);
+            this.LocationChanged += new System.EventHandler(this.TableDisplayer_LocationChanged);
             this.VisibleChanged += new System.EventHandler(this.TableDisplayer_VisibleChanged);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -149,5 +165,6 @@
         private System.Windows.Forms.Timer tmDisplay;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblDBname;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

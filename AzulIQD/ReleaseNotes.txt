@@ -3,3 +3,6 @@
 					Fix bug on connecting to SQL Server
 					Fix bug of missing AND for multi-join columns
 					Fix bug closing join columns
+05/13/2020 -- V 1.2 Add graphic images on forms
+					Adjust top left of all forms to align
+					Add Exit button on SQL display form

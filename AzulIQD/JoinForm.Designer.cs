@@ -39,6 +39,7 @@
             this.btnRjoin = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
             this.gbColsJoin = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btnDoneJoinCs = new System.Windows.Forms.Button();
             this.lblUnjoinedTab = new System.Windows.Forms.Label();
@@ -47,9 +48,12 @@
             this.clbLeftCols = new System.Windows.Forms.CheckedListBox();
             this.lbRightJoinCols = new System.Windows.Forms.CheckedListBox();
             this.lbLeftJoinCols = new System.Windows.Forms.CheckedListBox();
-            this.btnClear = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.gbColsJoin.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // lbUnjoined
@@ -141,7 +145,7 @@
             // btnNext
             // 
             this.btnNext.Enabled = false;
-            this.btnNext.Location = new System.Drawing.Point(633, 535);
+            this.btnNext.Location = new System.Drawing.Point(726, 535);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(137, 37);
             this.btnNext.TabIndex = 8;
@@ -151,6 +155,7 @@
             // 
             // gbColsJoin
             // 
+            this.gbColsJoin.Controls.Add(this.pictureBox1);
             this.gbColsJoin.Controls.Add(this.label4);
             this.gbColsJoin.Controls.Add(this.btnDoneJoinCs);
             this.gbColsJoin.Controls.Add(this.lblUnjoinedTab);
@@ -159,12 +164,22 @@
             this.gbColsJoin.Controls.Add(this.clbLeftCols);
             this.gbColsJoin.Controls.Add(this.lbRightJoinCols);
             this.gbColsJoin.Controls.Add(this.lbLeftJoinCols);
-            this.gbColsJoin.Location = new System.Drawing.Point(12, 18);
+            this.gbColsJoin.Location = new System.Drawing.Point(16, 18);
             this.gbColsJoin.Name = "gbColsJoin";
-            this.gbColsJoin.Size = new System.Drawing.Size(792, 560);
+            this.gbColsJoin.Size = new System.Drawing.Size(896, 560);
             this.gbColsJoin.TabIndex = 9;
             this.gbColsJoin.TabStop = false;
             this.gbColsJoin.Visible = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::AzulIQD.Properties.Resources.Join_Cs;
+            this.pictureBox1.Location = new System.Drawing.Point(777, 70);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(92, 92);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 11;
+            this.pictureBox1.TabStop = false;
             // 
             // label4
             // 
@@ -179,7 +194,7 @@
             // btnDoneJoinCs
             // 
             this.btnDoneJoinCs.Enabled = false;
-            this.btnDoneJoinCs.Location = new System.Drawing.Point(621, 499);
+            this.btnDoneJoinCs.Location = new System.Drawing.Point(714, 499);
             this.btnDoneJoinCs.Name = "btnDoneJoinCs";
             this.btnDoneJoinCs.Size = new System.Drawing.Size(137, 37);
             this.btnDoneJoinCs.TabIndex = 9;
@@ -251,16 +266,6 @@
             this.lbLeftJoinCols.TabIndex = 0;
             this.lbLeftJoinCols.UseCompatibleTextRendering = true;
             // 
-            // btnClear
-            // 
-            this.btnClear.Image = ((System.Drawing.Image)(resources.GetObject("btnClear.Image")));
-            this.btnClear.Location = new System.Drawing.Point(726, 381);
-            this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(48, 43);
-            this.btnClear.TabIndex = 10;
-            this.btnClear.UseVisualStyleBackColor = true;
-            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
-            // 
             // btnEdit
             // 
             this.btnEdit.Enabled = false;
@@ -272,11 +277,31 @@
             this.btnEdit.UseVisualStyleBackColor = true;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
+            // btnClear
+            // 
+            this.btnClear.Image = ((System.Drawing.Image)(resources.GetObject("btnClear.Image")));
+            this.btnClear.Location = new System.Drawing.Point(726, 381);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(48, 43);
+            this.btnClear.TabIndex = 10;
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::AzulIQD.Properties.Resources.Join_Ts;
+            this.pictureBox2.Location = new System.Drawing.Point(805, 48);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(92, 92);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 14;
+            this.pictureBox2.TabStop = false;
+            // 
             // JoinForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(820, 590);
+            this.ClientSize = new System.Drawing.Size(928, 590);
             this.Controls.Add(this.gbColsJoin);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnClear);
@@ -289,11 +314,15 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.lbJoined);
             this.Controls.Add(this.lbUnjoined);
+            this.Controls.Add(this.pictureBox2);
             this.Name = "JoinForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Join Configuration";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.JoinForm_FormClosing);
             this.gbColsJoin.ResumeLayout(false);
             this.gbColsJoin.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -321,6 +350,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
 
 
 

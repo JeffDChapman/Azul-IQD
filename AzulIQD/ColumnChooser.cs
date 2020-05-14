@@ -18,6 +18,9 @@ namespace AzulIQD
             InitializeComponent();
             callingJoinForm = parent;
             tbTableName.Text = TableToUse;
+            this.Top = parent.frmTabDispParent.PlaceForms.topForm;
+            this.Left = parent.frmTabDispParent.PlaceForms.LeftForm;
+            this.Refresh();
         }
 
         private void lbColumnLister_Click(object sender, EventArgs e)
