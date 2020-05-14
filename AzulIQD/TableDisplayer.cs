@@ -13,6 +13,11 @@ namespace AzulIQD
 {
     public partial class TableDisplayer : Form
     {
+        public struct FormLoc
+        {
+            public int topForm;
+            public int LeftForm;
+        }
         private string myConxString;
         private string AzureServer;
         private string myAzureDBName;
@@ -21,9 +26,10 @@ namespace AzulIQD
         private bool firstTimeThru = true;
         private JoinForm myJF;
         private bool dbIsConnected;
-        private bool AzureConx = true;
-        private bool testing = false;
+        private bool AzureConx = false;
+        private bool testing = true;
         public SqlConnection DBConnection { get; set; }
+        public FormLoc PlaceForms = new FormLoc();
 
         public TableDisplayer()
         {
@@ -32,12 +38,15 @@ namespace AzulIQD
 
         private void TableDisplayer_Load(object sender, EventArgs e)
         {
-            AzureServer = "jeffctest";
-            myAzureDBName = "jeffc-test";
-            myUserID = "jeffc";
+            AzureServer = "jeffcultra\\sqlexpress";
+            myAzureDBName = "AutomationDB";
+            myUserID = "";
             myPW = "";
 
             if (!testing) { lblDBname_Click(this, null); }
+
+            PlaceForms.LeftForm = this.Left;
+            PlaceForms.topForm = this.Top;
         }
 
         private void TableDisplayer_VisibleChanged(object sender, EventArgs e)
@@ -168,6 +177,8 @@ namespace AzulIQD
                     {myJF.passedJoinedTabs.Add(item.ToString());}
 
                 myJF.JFinitialize();
+                myJF.Top = PlaceForms.topForm;
+                myJF.Left = PlaceForms.LeftForm;     
 
                 firstTimeThru = false;
             }
@@ -179,6 +190,8 @@ namespace AzulIQD
                 myJF.JFaddMoreTables();
 
                 this.Hide();
+                myJF.Top = PlaceForms.topForm;
+                myJF.Left = PlaceForms.LeftForm;
                 Application.DoEvents();
                 myJF.Show();
             }
@@ -204,6 +217,12 @@ namespace AzulIQD
             }
             catch { }
             Application.Exit();
+        }
+
+        private void TableDisplayer_LocationChanged(object sender, EventArgs e)
+        {
+            PlaceForms.LeftForm = this.Left;
+            PlaceForms.topForm = this.Top;
         }
 
     }

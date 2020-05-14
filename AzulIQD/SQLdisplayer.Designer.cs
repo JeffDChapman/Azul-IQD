@@ -33,6 +33,7 @@
             this.btnCopy = new System.Windows.Forms.Button();
             this.lblTextCopied = new System.Windows.Forms.Label();
             this.tmrCopied = new System.Windows.Forms.Timer(this.components);
+            this.btnExit = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tbSQLstatement
@@ -73,15 +74,27 @@
             this.tmrCopied.Interval = 300;
             this.tmrCopied.Tick += new System.EventHandler(this.tmrCopied_Tick);
             // 
+            // btnExit
+            // 
+            this.btnExit.Location = new System.Drawing.Point(533, 423);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(134, 39);
+            this.btnExit.TabIndex = 3;
+            this.btnExit.Text = "Quit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
+            // 
             // SQLdisplayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(888, 480);
+            this.Controls.Add(this.btnExit);
             this.Controls.Add(this.lblTextCopied);
             this.Controls.Add(this.btnCopy);
             this.Controls.Add(this.tbSQLstatement);
             this.Name = "SQLdisplayer";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "SQL Statement Display";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -94,6 +107,7 @@
         private System.Windows.Forms.Button btnCopy;
         private System.Windows.Forms.Label lblTextCopied;
         private System.Windows.Forms.Timer tmrCopied;
+        private System.Windows.Forms.Button btnExit;
 
     }
 }

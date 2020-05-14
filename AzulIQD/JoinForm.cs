@@ -25,7 +25,7 @@ namespace AzulIQD
         }
 
         List<queryTabInfo> queryParms = new List<queryTabInfo>();
-        TableDisplayer frmTabDispParent;
+        public TableDisplayer frmTabDispParent;
         public List<String> passedJoinedTabs = new List<string>();
         private object TabThatNeedsCols;
         private string getColsSQL;
@@ -54,6 +54,9 @@ namespace AzulIQD
         public void JFinitialize()
         {
             frmTabDispParent.Hide();
+            this.Top = frmTabDispParent.PlaceForms.topForm;
+            this.Left = frmTabDispParent.PlaceForms.LeftForm;
+
             Application.DoEvents();
 
             bool firstObj = true;
@@ -108,6 +111,7 @@ namespace AzulIQD
             {
                 myCC.lbColumnLister.Items.Add(oneCol[0] + "\t" + oneCol[1] + "\t" + oneCol[2]);
             }
+
             return myCC;
         }
 
@@ -274,7 +278,7 @@ namespace AzulIQD
             getQO = new QueryOptions();
             getQO.ShowDialog();
             BuildSQLstring();
-            mySQLform = new SQLdisplayer();
+            mySQLform = new SQLdisplayer(this);
             mySQLform.tbSQLstatement.Text = builtSQLquery;
             this.Hide();
             mySQLform.ShowDialog();
@@ -417,7 +421,8 @@ namespace AzulIQD
                 return;
             }
             this.Hide();
-            frmTabDispParent.Show();
+            try { frmTabDispParent.Show(); }
+                catch { }
             e.Cancel = true;
         }
 

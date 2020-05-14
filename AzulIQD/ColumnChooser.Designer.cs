@@ -28,29 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ColumnChooser));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.tbTableName = new System.Windows.Forms.TextBox();
             this.lbColumnLister = new System.Windows.Forms.CheckedListBox();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(49, 29);
+            this.label1.Location = new System.Drawing.Point(41, 29);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(553, 29);
+            this.label1.Size = new System.Drawing.Size(476, 29);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Please select the columns that you want to include:";
+            this.label1.Text = "Select the columns that you want to include:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(49, 73);
+            this.label2.Location = new System.Drawing.Point(41, 73);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(118, 25);
             this.label2.TabIndex = 1;
@@ -60,7 +63,7 @@
             // 
             this.tbTableName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbTableName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTableName.Location = new System.Drawing.Point(173, 73);
+            this.tbTableName.Location = new System.Drawing.Point(168, 73);
             this.tbTableName.Name = "tbTableName";
             this.tbTableName.Size = new System.Drawing.Size(304, 23);
             this.tbTableName.TabIndex = 2;
@@ -97,11 +100,22 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(567, 29);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(92, 92);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 7;
+            this.pictureBox1.TabStop = false;
+            // 
             // ColumnChooser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 658);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
             this.Controls.Add(this.lbColumnLister);
@@ -110,7 +124,9 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "ColumnChooser";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Column Selector";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -124,5 +140,6 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
         public System.Windows.Forms.CheckedListBox lbColumnLister;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
