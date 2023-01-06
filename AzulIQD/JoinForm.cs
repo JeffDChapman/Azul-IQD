@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Data.OleDb;
+using System.Security.Cryptography;
 
 namespace AzulIQD
 {
@@ -29,7 +26,8 @@ namespace AzulIQD
         public List<String> passedJoinedTabs = new List<string>();
         private object TabThatNeedsCols;
         private string getColsSQL;
-        private SqlConnection DBConnection;
+        private IDbConnection DBConnection;
+        private bool RemoteConx;
         private DataTable colListing = new DataTable();
         private int colCounter;
         private ColumnChooser myCC;
@@ -49,6 +47,7 @@ namespace AzulIQD
             InitializeComponent();
             frmTabDispParent = parent;
             DBConnection = parent.DBConnection;
+            RemoteConx = parent.RemoteConx;
         }
 
         public void JFinitialize()
@@ -97,19 +96,27 @@ namespace AzulIQD
             getColsSQL += "from information_schema.columns where (table_name = '";
             getColsSQL += TabThatNeedsCols.ToString() + "')";
             colListing.Clear();
-            SqlCommand cmd = DBConnection.CreateCommand();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
-            {
-                cmd.CommandText = getColsSQL;
-                cmd.CommandType = CommandType.Text;
+            IDbCommand cmd = DBConnection.CreateCommand();
+            cmd.CommandText = getColsSQL;
+            cmd.CommandType = CommandType.Text;
+            int uc1; int uc2; int uc3;
+            if (RemoteConx)
+            { SqlDataAdapter sda = new SqlDataAdapter((SqlCommand) cmd);
                 colCounter = sda.Fill(colListing);
+                uc1 = 0; uc2 = 1; uc3 = 2;
+            }
+            else
+            {
+                OleDbConnection myOleDB = (OleDbConnection)DBConnection;
+                colListing = myOleDB.GetOleDbSchemaTable(OleDbSchemaGuid.Columns,
+                    new Object[] { null, null, TabThatNeedsCols.ToString() });
+                uc1 = 3; uc2 = 9; uc3 = 11;
             }
 
             myCC.lbColumnLister.Items.Clear();
             foreach (DataRow oneCol in colListing.Rows)
             {
-                myCC.lbColumnLister.Items.Add(oneCol[0] + "\t" + oneCol[1] + "\t" + oneCol[2]);
+                myCC.lbColumnLister.Items.Add(oneCol[uc1] + "\t" + oneCol[uc2] + "\t" + oneCol[uc3]);
             }
 
             return myCC;
