@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data.OleDb;
 using System.Security.Cryptography;
+using System.Data.Common;
 
 namespace AzulIQD
 {
@@ -92,6 +93,23 @@ namespace AzulIQD
         {
             myCC = new ColumnChooser(TabThatNeedsCols.ToString(), this);
 
+            //oldWayToGetCols();
+
+            DbCommand command = (DbCommand)DBConnection.CreateCommand();
+            command.CommandText = "select * from " + TabThatNeedsCols.ToString() + " where 1 = 0";
+            command.CommandType = CommandType.Text;
+            DbDataReader reader = command.ExecuteReader();
+
+            DataTable colListing = reader.GetSchemaTable();
+            myCC.lbColumnLister.Items.Clear();
+            foreach (DataRow oneCol in colListing.Rows)
+                { myCC.lbColumnLister.Items.Add(oneCol.ItemArray[0] + "\t" + oneCol.ItemArray[5] + "\t" + oneCol.ItemArray[2]); }
+
+            return myCC;
+        }
+
+        private void oldWayToGetCols()
+        {
             getColsSQL = "select column_name, data_type, character_maximum_length ";
             getColsSQL += "from information_schema.columns where (table_name = '";
             getColsSQL += TabThatNeedsCols.ToString() + "')";
@@ -101,7 +119,8 @@ namespace AzulIQD
             cmd.CommandType = CommandType.Text;
             int uc1; int uc2; int uc3;
             if (RemoteConx)
-            { SqlDataAdapter sda = new SqlDataAdapter((SqlCommand) cmd);
+            {
+                SqlDataAdapter sda = new SqlDataAdapter((SqlCommand)cmd);
                 colCounter = sda.Fill(colListing);
                 uc1 = 0; uc2 = 1; uc3 = 2;
             }
@@ -118,8 +137,6 @@ namespace AzulIQD
             {
                 myCC.lbColumnLister.Items.Add(oneCol[uc1] + "\t" + oneCol[uc2] + "\t" + oneCol[uc3]);
             }
-
-            return myCC;
         }
 
         private ColumnChooser GetTheColumns(List<string> checkedColumns)
