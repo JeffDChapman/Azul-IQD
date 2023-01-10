@@ -102,8 +102,12 @@ namespace AzulIQD
 
             DataTable colListing = reader.GetSchemaTable();
             myCC.lbColumnLister.Items.Clear();
+            int itemForDataType = 5;
+            if (RemoteConx) { itemForDataType = 12; }
+
             foreach (DataRow oneCol in colListing.Rows)
-                { myCC.lbColumnLister.Items.Add(oneCol.ItemArray[0] + "\t" + oneCol.ItemArray[5] + "\t" + oneCol.ItemArray[2]); }
+                { myCC.lbColumnLister.Items.Add(oneCol.ItemArray[0] + "\t" 
+                    + oneCol.ItemArray[itemForDataType] + "\t" + oneCol.ItemArray[2]); }
 
             return myCC;
         }

@@ -26,5 +26,15 @@ namespace AzulIQD
             this.Hide();
             callingJoinForm.Show();
         }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void ColumnChooser_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

@@ -78,30 +78,37 @@ namespace AzulIQD
             tbDBtype.Text = cbKBDTypes.Text;
             tbDBtype.Visible = true;
             cbKBDTypes.Visible = false;
+            btnSelectDB.Visible = false;
 
             switch (tbDBtype.Text)
             {
                 case "MS Access":
                     MSAprovider();
+                    lblServerOrPath.Text = "Path:";
+                    btnSelectDB.Visible = true;
                     break;
                 case "System.Data.OleDb":
                     MSAprovider();
-                    tbDBtype.Text = "MS Access"; 
+                    tbDBtype.Text = "MS Access";
+                    lblServerOrPath.Text = "Path:";
+                    btnSelectDB.Visible = true;
                     break;
                 case "MS SQL Server":
                     MSsqlProvider();
+                    lblServerOrPath.Text = "Server:";
                     break;
                 case "System.Data.SqlClient":
                     MSsqlProvider();
+                    lblServerOrPath.Text = "Server:";
                     tbDBtype.Text = "MS SQL Server"; 
                     break;
                 case "Azure SQL Server":
                     DataProvider = "System.Data.SqlClient";
-                    lblServerOrPath.Text = "Server";
+                    lblServerOrPath.Text = "Server:";
                     break;
                 case "Oracle Server":
                     DataProvider = "System.Data.OracleClient";
-                    lblServerOrPath.Text = "Server";
+                    lblServerOrPath.Text = "Server:";
                     break;
             }
 
@@ -110,19 +117,14 @@ namespace AzulIQD
         private void MSsqlProvider()
         {
             DataProvider = "System.Data.SqlClient";
-            lblServerOrPath.Text = "Server";
-            if (cbKBDTypes.SelectedText == "MS SQL Server")
-            {
-                tbServer.Text = Environment.MachineName.ToString() + "\\sqlexpress";
-                tbDatabase.Text = "Enter DB Name";
-                tbLoginID.Text = "";
-            }
+            tbServer.Text = Environment.MachineName.ToString() + "\\sqlexpress";
+            tbDatabase.Text = "Enter DB Name";
+            tbLoginID.Text = "";
         }
 
         private void MSAprovider()
         {
             DataProvider = "System.Data.OleDb";
-            lblServerOrPath.Text = "Path";
             tbServer.Text = ".";
             tbDatabase.Text = "";
             tbLoginID.Text = "Admin";
