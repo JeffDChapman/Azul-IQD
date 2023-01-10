@@ -1,8 +1,9 @@
 05/10/2020 -- V 1.0 Initial Release
 05/11/2020 -- V 1.1 Add Edit Button
-					Fix bug on connecting to SQL Server
-					Fix bug of missing AND for multi-join columns
-					Fix bug closing join columns
+	Fix bug on connecting to SQL Server
+	Fix bug of missing AND for multi-join columns
+	Fix bug closing join columns
 05/13/2020 -- V 1.2 Add graphic images on forms
-					Adjust top left of all forms to align
-					Add Exit button on SQL display form
+	Adjust top left of all forms to align
+	Add Exit button on SQL display form
+01/10/2023 -- V 1.3 Add support for SQL Server and old MS Access

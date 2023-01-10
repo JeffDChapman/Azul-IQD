@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Data.OleDb;
+using System.Security.Cryptography;
+using System.Data.Common;
 
 namespace AzulIQD
 {
@@ -29,7 +27,8 @@ namespace AzulIQD
         public List<String> passedJoinedTabs = new List<string>();
         private object TabThatNeedsCols;
         private string getColsSQL;
-        private SqlConnection DBConnection;
+        private IDbConnection DBConnection;
+        private bool RemoteConx;
         private DataTable colListing = new DataTable();
         private int colCounter;
         private ColumnChooser myCC;
@@ -49,6 +48,7 @@ namespace AzulIQD
             InitializeComponent();
             frmTabDispParent = parent;
             DBConnection = parent.DBConnection;
+            RemoteConx = parent.RemoteConx;
         }
 
         public void JFinitialize()
@@ -93,26 +93,54 @@ namespace AzulIQD
         {
             myCC = new ColumnChooser(TabThatNeedsCols.ToString(), this);
 
+            //oldWayToGetCols();
+
+            DbCommand command = (DbCommand)DBConnection.CreateCommand();
+            command.CommandText = "select * from " + TabThatNeedsCols.ToString() + " where 1 = 0";
+            command.CommandType = CommandType.Text;
+            DbDataReader reader = command.ExecuteReader();
+
+            DataTable colListing = reader.GetSchemaTable();
+            myCC.lbColumnLister.Items.Clear();
+            int itemForDataType = 5;
+            if (RemoteConx) { itemForDataType = 12; }
+
+            foreach (DataRow oneCol in colListing.Rows)
+                { myCC.lbColumnLister.Items.Add(oneCol.ItemArray[0] + "\t" 
+                    + oneCol.ItemArray[itemForDataType] + "\t" + oneCol.ItemArray[2]); }
+
+            return myCC;
+        }
+
+        private void oldWayToGetCols()
+        {
             getColsSQL = "select column_name, data_type, character_maximum_length ";
             getColsSQL += "from information_schema.columns where (table_name = '";
             getColsSQL += TabThatNeedsCols.ToString() + "')";
             colListing.Clear();
-            SqlCommand cmd = DBConnection.CreateCommand();
-
-            using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+            IDbCommand cmd = DBConnection.CreateCommand();
+            cmd.CommandText = getColsSQL;
+            cmd.CommandType = CommandType.Text;
+            int uc1; int uc2; int uc3;
+            if (RemoteConx)
             {
-                cmd.CommandText = getColsSQL;
-                cmd.CommandType = CommandType.Text;
+                SqlDataAdapter sda = new SqlDataAdapter((SqlCommand)cmd);
                 colCounter = sda.Fill(colListing);
+                uc1 = 0; uc2 = 1; uc3 = 2;
+            }
+            else
+            {
+                OleDbConnection myOleDB = (OleDbConnection)DBConnection;
+                colListing = myOleDB.GetOleDbSchemaTable(OleDbSchemaGuid.Columns,
+                    new Object[] { null, null, TabThatNeedsCols.ToString() });
+                uc1 = 3; uc2 = 9; uc3 = 11;
             }
 
             myCC.lbColumnLister.Items.Clear();
             foreach (DataRow oneCol in colListing.Rows)
             {
-                myCC.lbColumnLister.Items.Add(oneCol[0] + "\t" + oneCol[1] + "\t" + oneCol[2]);
+                myCC.lbColumnLister.Items.Add(oneCol[uc1] + "\t" + oneCol[uc2] + "\t" + oneCol[uc3]);
             }
-
-            return myCC;
         }
 
         private ColumnChooser GetTheColumns(List<string> checkedColumns)

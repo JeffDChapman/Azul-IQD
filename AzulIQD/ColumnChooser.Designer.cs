@@ -36,6 +36,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -43,7 +44,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(41, 29);
+            this.label1.Location = new System.Drawing.Point(44, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(476, 29);
             this.label1.TabIndex = 0;
@@ -53,7 +54,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(41, 73);
+            this.label2.Location = new System.Drawing.Point(41, 99);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(118, 25);
             this.label2.TabIndex = 1;
@@ -63,7 +64,7 @@
             // 
             this.tbTableName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tbTableName.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbTableName.Location = new System.Drawing.Point(168, 73);
+            this.tbTableName.Location = new System.Drawing.Point(168, 99);
             this.tbTableName.Name = "tbTableName";
             this.tbTableName.Size = new System.Drawing.Size(304, 23);
             this.tbTableName.TabIndex = 2;
@@ -73,9 +74,9 @@
             this.lbColumnLister.CheckOnClick = true;
             this.lbColumnLister.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbColumnLister.FormattingEnabled = true;
-            this.lbColumnLister.Location = new System.Drawing.Point(31, 115);
+            this.lbColumnLister.Location = new System.Drawing.Point(31, 142);
             this.lbColumnLister.Name = "lbColumnLister";
-            this.lbColumnLister.Size = new System.Drawing.Size(496, 504);
+            this.lbColumnLister.Size = new System.Drawing.Size(496, 463);
             this.lbColumnLister.TabIndex = 3;
             this.lbColumnLister.UseCompatibleTextRendering = true;
             this.lbColumnLister.Click += new System.EventHandler(this.lbColumnLister_Click);
@@ -88,6 +89,7 @@
             this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnOK
             // 
@@ -110,11 +112,21 @@
             this.pictureBox1.TabIndex = 7;
             this.pictureBox1.TabStop = false;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(100, 66);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(364, 20);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "(Be sure to include those you need for future joins)";
+            // 
             // ColumnChooser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(699, 658);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
@@ -126,6 +138,7 @@
             this.Name = "ColumnChooser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Column Selector";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ColumnChooser_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -141,5 +154,6 @@
         private System.Windows.Forms.Button btnOK;
         public System.Windows.Forms.CheckedListBox lbColumnLister;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label label3;
     }
 }

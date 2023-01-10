@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.OleDb;
 using System.Windows.Forms;
 
 namespace AzulIQD
@@ -23,13 +18,15 @@ namespace AzulIQD
         private string myAzureDBName;
         private string myUserID;
         private string myPW;
+        private string myDBtype;
         private bool firstTimeThru = true;
         private JoinForm myJF;
         private bool dbIsConnected;
         private bool AzureConx = false;
-        private bool testing = false;
-        public SqlConnection DBConnection { get; set; }
+        private bool testing = true;
+        public IDbConnection DBConnection { get; set; }
         public FormLoc PlaceForms = new FormLoc();
+        public bool RemoteConx = true;
 
         public TableDisplayer()
         {
@@ -38,8 +35,8 @@ namespace AzulIQD
 
         private void TableDisplayer_Load(object sender, EventArgs e)
         {
-            AzureServer = "jeffcultra\\sqlexpress";
-            myAzureDBName = "AutomationDB";
+            AzureServer = "";
+            myAzureDBName = "";
             myUserID = "";
             myPW = "";
 
@@ -59,6 +56,7 @@ namespace AzulIQD
             this.btnOK.Enabled = false;
             this.Refresh();
             Application.DoEvents();
+            if (!dbIsConnected) { lblDBname_Click(this, null); }
             this.tmDisplay.Enabled = true;
         }
 
@@ -71,33 +69,49 @@ namespace AzulIQD
         private void lblDBname_Click(object sender, EventArgs e)
         {
             DBconxGet GetNewDB = new DBconxGet();
-            GetNewDB.tbServier.Text = AzureServer;
+            GetNewDB.tbServer.Text = AzureServer;
             GetNewDB.tbDatabase.Text = myAzureDBName;
             GetNewDB.tbLoginID.Text = myUserID;
             GetNewDB.tbPW.Text = myPW;
             GetNewDB.ShowDialog();
 
-            AzureServer = GetNewDB.tbServier.Text;
+            AzureServer = GetNewDB.tbServer.Text;
             myAzureDBName = GetNewDB.tbDatabase.Text;
             myUserID = GetNewDB.tbLoginID.Text;
             myPW = GetNewDB.tbPW.Text;
-            if (GetNewDB.radioButton1.Checked) { AzureConx = true;  }
-                else { AzureConx = false; }
+            myDBtype = GetNewDB.tbDBtype.Text;
+            if (myDBtype == "MS Access") 
+            { 
+                AzureConx = false;
+                RemoteConx = false;
+            }
+                else 
+            { 
+                AzureConx = true;
+                RemoteConx = true;
+            }
             this.lblDBname.Text = "????";
+        }
 
-            TableDisplayer_VisibleChanged(this, null);
-        }        
-        
         private void LoadTableList()
         {
             ConnectToAzure();
 
-            if (!dbIsConnected) 
+            if (!dbIsConnected)
             {
                 this.Cursor = Cursors.Arrow;
                 return; }
 
-            DataTable t = DBConnection.GetSchema("Tables");
+            DataTable t = new DataTable();
+            if (RemoteConx)
+                { SqlConnection useSQLcx = (SqlConnection)DBConnection;
+                t = useSQLcx.GetSchema("Tables");
+            }
+            else 
+                { OleDbConnection useSQLcx = (OleDbConnection)DBConnection;
+                t = useSQLcx.GetSchema("Tables");
+            }
+            
             foreach (DataRow myTabrow in t.Rows)
             {
                 string oneTable = myTabrow.ItemArray[2].ToString();
@@ -112,54 +126,76 @@ namespace AzulIQD
         private void ConnectToAzure()
         {
             this.Cursor = Cursors.WaitCursor;
-            myConxString = "Server=";
-            if (AzureConx) { myConxString += "tcp:"; }
-            myConxString += AzureServer;
-            if (AzureConx) { myConxString += ".database.windows.net,1433"; }
-            myConxString += ";Initial Catalog=" + myAzureDBName;
-            if (myUserID == "")
-                { myConxString += ";Integrated Security=true"; }
-            else
+            if (myDBtype == "MS Access")
             {
-            myConxString += ";Persist Security Info=False;User ID=";
-            myConxString += myUserID + ";Password=" + myPW;
+                myConxString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=";
+                myConxString += AzureServer + "\\" + myAzureDBName + ";User Id=" + myUserID +
+                    ";Jet OLEDB:Encrypt Database=True;Jet OLEDB:Database Password=" + myPW + ";";
             }
-            if (AzureConx) {myConxString += ";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False";}
-            myConxString += ";Connection Timeout=3;";
+            else
+                { nonAccessConx(); }
 
-            // TODO: fix this mess. Maybe use a string.replace or add a DB connx object to form
-            // also regular SQL connx still doesn't work
-           
             // check if connected to the DB 
             if (DBConnection == null || !checkDBconnected())
             {
                 try
                 {
-                    DBConnection = new SqlConnection(myConxString);
+                    if (RemoteConx)
+                        { DBConnection = new SqlConnection(myConxString); }
+                    else 
+                        { DBConnection = new OleDbConnection(myConxString); }
                     DBConnection.Open();
                     dbIsConnected = true;
-                    this.lblDBname.Text = DBConnection.Database;
+                    if (RemoteConx)
+                        { this.lblDBname.Text = DBConnection.Database; }
+                    else 
+                        { this.lblDBname.Text = myAzureDBName; }
                 }
                 catch
                 {
                     dbIsConnected = false;
                     this.Cursor = Cursors.Arrow;
-                    MessageBox.Show("Unable to connect to Azure","Connect Error");
+                    MessageBox.Show("Unable to connect to Azure", "Connect Error");
                 }
             }
         }
 
+        private void nonAccessConx()
+        {
+            myConxString = "Server=";
+            if (myDBtype == "MS Azure") { myConxString += "tcp:"; }
+            myConxString += AzureServer;
+            if (myDBtype == "MS Azure") { myConxString += ".database.windows.net,1433"; }
+
+            myConxString += ";Initial Catalog=" + myAzureDBName;
+            if (myUserID == "")
+                { myConxString += ";Integrated Security=true"; }
+            else
+            {
+                myConxString += ";Persist Security Info=False;User ID=";
+                myConxString += myUserID + ";Password=" + myPW;
+            }
+            if (myDBtype == "MS Azure") { myConxString += ";MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False"; }
+            myConxString += ";Connection Timeout=20;";
+
+        }
+
         private bool checkDBconnected()
         {
-            using (var l_oConnection = new SqlConnection(DBConnection.ConnectionString))
+            try
             {
-                try
-                {
-                    l_oConnection.Open();
-                    return true;
-                }
-                catch (SqlException)
-                { return false; }
+                IDbConnection myTestCnx;
+                // TODO: this needs that factory provider stuff...
+                if (RemoteConx)
+                     { myTestCnx = new SqlConnection(myConxString); }
+                else
+                     { myTestCnx = new OleDbConnection(myConxString); }
+                myTestCnx.Open();
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
