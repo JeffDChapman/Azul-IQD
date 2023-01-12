@@ -35,6 +35,8 @@
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.btnNolock = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.btnGroupBy = new System.Windows.Forms.RadioButton();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
@@ -57,7 +59,7 @@
             // 
             // btnNext
             // 
-            this.btnNext.Location = new System.Drawing.Point(292, 503);
+            this.btnNext.Location = new System.Drawing.Point(292, 539);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(137, 37);
             this.btnNext.TabIndex = 9;
@@ -118,6 +120,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.btnGroupBy);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.radioButton3);
@@ -125,14 +129,33 @@
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox2.Location = new System.Drawing.Point(32, 133);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(397, 101);
+            this.groupBox2.Size = new System.Drawing.Size(397, 139);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(50, 61);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(251, 20);
+            this.label9.TabIndex = 5;
+            this.label9.Text = "Sums or Min/Max with GROUP BY";
+            // 
+            // btnGroupBy
+            // 
+            this.btnGroupBy.AutoSize = true;
+            this.btnGroupBy.Location = new System.Drawing.Point(24, 61);
+            this.btnGroupBy.Name = "btnGroupBy";
+            this.btnGroupBy.Size = new System.Drawing.Size(21, 20);
+            this.btnGroupBy.TabIndex = 4;
+            this.btnGroupBy.TabStop = true;
+            this.btnGroupBy.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(51, 61);
+            this.label3.Location = new System.Drawing.Point(51, 97);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(255, 20);
             this.label3.TabIndex = 3;
@@ -150,7 +173,7 @@
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(24, 59);
+            this.radioButton3.Location = new System.Drawing.Point(24, 97);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(21, 20);
             this.radioButton3.TabIndex = 1;
@@ -174,7 +197,7 @@
             this.groupBox3.Controls.Add(this.radioButton5);
             this.groupBox3.Controls.Add(this.btnTop20);
             this.groupBox3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox3.Location = new System.Drawing.Point(32, 254);
+            this.groupBox3.Location = new System.Drawing.Point(32, 290);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(397, 101);
             this.groupBox3.TabIndex = 11;
@@ -225,7 +248,7 @@
             this.groupBox4.Controls.Add(this.radioButton7);
             this.groupBox4.Controls.Add(this.btnAlias);
             this.groupBox4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox4.Location = new System.Drawing.Point(32, 375);
+            this.groupBox4.Location = new System.Drawing.Point(32, 411);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(397, 101);
             this.groupBox4.TabIndex = 11;
@@ -273,7 +296,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(474, 568);
+            this.ClientSize = new System.Drawing.Size(474, 590);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -318,5 +341,7 @@
         public System.Windows.Forms.RadioButton btnDistinct;
         public System.Windows.Forms.RadioButton btnTop20;
         public System.Windows.Forms.RadioButton btnAlias;
+        private System.Windows.Forms.Label label9;
+        public System.Windows.Forms.RadioButton btnGroupBy;
     }
 }

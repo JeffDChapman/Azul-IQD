@@ -126,7 +126,6 @@ namespace AzulIQD
         private void ConnectToAzure()
         {
             this.Cursor = Cursors.WaitCursor;
-            //OldAzureConnect();
             if (myDBtype == "MS Access")
             {
                 myConxString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=";
@@ -141,7 +140,6 @@ namespace AzulIQD
             {
                 try
                 {
-                    // TODO: this needs that factory provider stuff...
                     if (RemoteConx)
                         { DBConnection = new SqlConnection(myConxString); }
                     else 
@@ -165,11 +163,9 @@ namespace AzulIQD
         private void nonAccessConx()
         {
             myConxString = "Server=";
-            if (RemoteConx) { myConxString += "tcp:"; }
+            if (myDBtype == "MS Azure") { myConxString += "tcp:"; }
             myConxString += AzureServer;
-            if (RemoteConx) { myConxString += ".database.windows.net,1433"; }
-
-            // TODO: fix this... Azure is remote + /also/ pulldown for Azure DB
+            if (myDBtype == "MS Azure") { myConxString += ".database.windows.net,1433"; }
 
             myConxString += ";Initial Catalog=" + myAzureDBName;
             if (myUserID == "")
@@ -179,27 +175,9 @@ namespace AzulIQD
                 myConxString += ";Persist Security Info=False;User ID=";
                 myConxString += myUserID + ";Password=" + myPW;
             }
-            if (RemoteConx) { myConxString += ";MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False"; }
+            if (myDBtype == "MS Azure") { myConxString += ";MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False"; }
             myConxString += ";Connection Timeout=20;";
 
-        }
-
-        private void OldAzureConnect()
-        {
-            myConxString = "Server=";
-            if (AzureConx) { myConxString += "tcp:"; }
-            myConxString += AzureServer;
-            if (AzureConx) { myConxString += ".database.windows.net,1433"; }
-            myConxString += ";Initial Catalog=" + myAzureDBName;
-            if (myUserID == "")
-            { myConxString += ";Integrated Security=true"; }
-            else
-            {
-                myConxString += ";Persist Security Info=False;User ID=";
-                myConxString += myUserID + ";Password=" + myPW;
-            }
-            if (AzureConx) { myConxString += ";MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False"; }
-            myConxString += ";Connection Timeout=3;";
         }
 
         private bool checkDBconnected()

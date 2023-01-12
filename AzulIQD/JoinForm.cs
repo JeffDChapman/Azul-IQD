@@ -11,7 +11,7 @@ namespace AzulIQD
 {
     public partial class JoinForm : Form
     {
-        private struct queryTabInfo 
+        private struct queryTabInfo
         {
             public string TableName;
             public string Alias;
@@ -42,8 +42,9 @@ namespace AzulIQD
         private string bsqExtrasClause;
         private QueryOptions getQO;
         private int qpIndex;
-        
-        public JoinForm(TableDisplayer parent) 
+        private GroupForm getGB;
+
+        public JoinForm(TableDisplayer parent)
         {
             InitializeComponent();
             frmTabDispParent = parent;
@@ -72,7 +73,7 @@ namespace AzulIQD
             }
 
             myCC = GetTheColumns();
-           
+
             Application.DoEvents();
             myCC.ShowDialog();
 
@@ -87,7 +88,7 @@ namespace AzulIQD
 
             queryParms.Add(myqTinfo);
             myCC.Close();
-         }
+        }
 
         private ColumnChooser GetTheColumns()
         {
@@ -102,41 +103,14 @@ namespace AzulIQD
 
             DataTable colListing = reader.GetSchemaTable();
             myCC.lbColumnLister.Items.Clear();
+            int itemForDataType = 5;
+            if (RemoteConx) { itemForDataType = 12; }
+
             foreach (DataRow oneCol in colListing.Rows)
-                { myCC.lbColumnLister.Items.Add(oneCol.ItemArray[0] + "\t" + oneCol.ItemArray[5] + "\t" + oneCol.ItemArray[2]); }
+            { myCC.lbColumnLister.Items.Add(oneCol.ItemArray[0] + "\t"
+                + oneCol.ItemArray[itemForDataType] + "\t" + oneCol.ItemArray[2]); }
 
             return myCC;
-        }
-
-        private void oldWayToGetCols()
-        {
-            getColsSQL = "select column_name, data_type, character_maximum_length ";
-            getColsSQL += "from information_schema.columns where (table_name = '";
-            getColsSQL += TabThatNeedsCols.ToString() + "')";
-            colListing.Clear();
-            IDbCommand cmd = DBConnection.CreateCommand();
-            cmd.CommandText = getColsSQL;
-            cmd.CommandType = CommandType.Text;
-            int uc1; int uc2; int uc3;
-            if (RemoteConx)
-            {
-                SqlDataAdapter sda = new SqlDataAdapter((SqlCommand)cmd);
-                colCounter = sda.Fill(colListing);
-                uc1 = 0; uc2 = 1; uc3 = 2;
-            }
-            else
-            {
-                OleDbConnection myOleDB = (OleDbConnection)DBConnection;
-                colListing = myOleDB.GetOleDbSchemaTable(OleDbSchemaGuid.Columns,
-                    new Object[] { null, null, TabThatNeedsCols.ToString() });
-                uc1 = 3; uc2 = 9; uc3 = 11;
-            }
-
-            myCC.lbColumnLister.Items.Clear();
-            foreach (DataRow oneCol in colListing.Rows)
-            {
-                myCC.lbColumnLister.Items.Add(oneCol[uc1] + "\t" + oneCol[uc2] + "\t" + oneCol[uc3]);
-            }
         }
 
         private ColumnChooser GetTheColumns(List<string> checkedColumns)
@@ -153,7 +127,7 @@ namespace AzulIQD
         public void JFaddMoreTables()
         {
             foreach (object OneTab in passedJoinedTabs)
-                { lbUnjoined.Items.Add(OneTab); }
+            { lbUnjoined.Items.Add(OneTab); }
         }
 
         private void lbJoined_SelectedIndexChanged(object sender, EventArgs e)
@@ -182,7 +156,7 @@ namespace AzulIQD
         }
 
         private void JoinButtonLogic(string JoinType)
-        { 
+        {
             // fill the column textboxes with column info
 
             saveJoinType = JoinType;
@@ -195,13 +169,13 @@ namespace AzulIQD
 
             clbLeftCols.Items.Clear();
             foreach (string OneCol in LeftTabCols)
-                 { clbLeftCols.Items.Add(OneCol); }
+            { clbLeftCols.Items.Add(OneCol); }
 
             TabThatNeedsCols = lbUnjoined.CheckedItems[0];
             myCC = GetTheColumns();
             clbRightCols.Items.Clear();
             foreach (object OneCol in myCC.lbColumnLister.Items)
-                { clbRightCols.Items.Add(OneCol); }
+            { clbRightCols.Items.Add(OneCol); }
 
             // auto check columns with same names
 
@@ -213,7 +187,7 @@ namespace AzulIQD
         private void btnDoneJoinCs_Click(object sender, EventArgs e)
         {
             this.gbColsJoin.Visible = false;
-            if (!GetColsToShowRight(myCC)) { return;  }
+            if (!GetColsToShowRight(myCC)) { return; }
             Application.DoEvents();
 
             // store info to internal struct list
@@ -227,12 +201,12 @@ namespace AzulIQD
             myqTinfo.MyJoinColumns = new List<string>();
             myqTinfo.ToJoinColumns = new List<string>();
             foreach (object OneCol in clbLeftCols.CheckedItems)
-                { myqTinfo.MyJoinColumns.Add(OneCol.ToString()); }
+            { myqTinfo.MyJoinColumns.Add(OneCol.ToString()); }
             foreach (object OneCol in clbRightCols.CheckedItems)
-                { myqTinfo.ToJoinColumns.Add(OneCol.ToString()); }
+            { myqTinfo.ToJoinColumns.Add(OneCol.ToString()); }
 
             queryParms.Add(myqTinfo);
-            
+
             // move table over from unjoined to joined list and clear checkboxes
 
             lbUnjoined.Items.Remove(lbUnjoined.CheckedItems[0]);
@@ -240,12 +214,12 @@ namespace AzulIQD
             lbJoined.ClearSelected();
             lbUnjoined.ClearSelected();
             while (lbJoined.CheckedIndices.Count > 0)
-                { lbJoined.SetItemChecked(lbJoined.CheckedIndices[0], false); }
+            { lbJoined.SetItemChecked(lbJoined.CheckedIndices[0], false); }
 
             AdjustJoinButtons();
             this.Show();
-        }       
-        
+        }
+
         private bool GetColsToShowRight(ColumnChooser myCC)
         {
             this.Hide();
@@ -272,9 +246,9 @@ namespace AzulIQD
             lbJoined.ClearSelected();
             lbUnjoined.ClearSelected();
             while (lbJoined.CheckedIndices.Count > 0)
-                { lbJoined.SetItemChecked(lbJoined.CheckedIndices[0], false); }
+            { lbJoined.SetItemChecked(lbJoined.CheckedIndices[0], false); }
             while (lbUnjoined.CheckedIndices.Count > 0)
-                { lbUnjoined.SetItemChecked(lbUnjoined.CheckedIndices[0], false); }
+            { lbUnjoined.SetItemChecked(lbUnjoined.CheckedIndices[0], false); }
             AdjustJoinButtons();
         }
 
@@ -289,11 +263,11 @@ namespace AzulIQD
             return new queryTabInfo();
         }
 
-        public List<string> GetReturnedColumns() 
+        public List<string> GetReturnedColumns()
         {
             List<string> ListofSelCols = new List<string>();
             foreach (object OneColumn in myCC.lbColumnLister.CheckedItems)
-                { ListofSelCols.Add(OneColumn.ToString()); }
+            { ListofSelCols.Add(OneColumn.ToString()); }
             return ListofSelCols;
         }
 
@@ -301,6 +275,13 @@ namespace AzulIQD
         {
             getQO = new QueryOptions();
             getQO.ShowDialog();
+            if (getQO.btnGroupBy.Checked)
+            {
+                getGB = new GroupForm();
+                getGB.Left = this.Left + 100;
+                setupGBfields();
+                getGB.ShowDialog();
+            }
             BuildSQLstring();
             mySQLform = new SQLdisplayer(this);
             mySQLform.tbSQLstatement.Text = builtSQLquery;
@@ -310,21 +291,49 @@ namespace AzulIQD
             this.Show();
         }
 
+        private void setupGBfields()
+        {
+            foreach (queryTabInfo oneTabInfo in queryParms)
+            {
+                foreach (string OneField in oneTabInfo.showColumns)
+                {
+                    int newRow = getGB.gvFieldSummaries.Rows.Add();
+                    DataGridViewRow myNewRow = getGB.gvFieldSummaries.Rows[newRow];
+                    myNewRow.Cells[0].Value = GetFieldName(oneTabInfo.TableName, "", OneField);
+                }
+            }
+        }
+
         private void BuildSQLstring()
         {
+            bool grouping = false;
+            if (getQO.btnGroupBy.Checked) { grouping = true; }
+
             builtSQLquery = "";
             bsqSelectClause = "SELECT ";
             bsqFromClause = "\r\nFROM ";
-            bsqExtrasClause = "\r\nWHERE (<add your criteria here>)\r\n-- ORDER BY <optionally add sort fields>";
+            if (grouping)
+            { bsqExtrasClause = "\r\nWHERE (<add your criteria here>)\r\n-- "
+                    + "HAVING (<optionally add summary-criteria here>)"; }
+            else { bsqExtrasClause = "\r\nWHERE (<add your criteria here>)\r\n-- " 
+                    + "ORDER BY <optionally add sort fields>"; }
             if (getQO.btnAlias.Checked) { BuildTableAliases();}
 
             if (getQO.btnDistinct.Checked) { bsqSelectClause += "DISTINCT "; }
             if (getQO.btnTop20.Checked) { bsqSelectClause += "TOP(20) "; }
 
+            int groupLookupIx = -1;
             foreach(queryTabInfo oneTabInfo in queryParms)
             {
                 foreach (string OneField in oneTabInfo.showColumns)
-                    { bsqSelectClause += GetFieldName(oneTabInfo.TableName, oneTabInfo.Alias, OneField) + ", "; }
+                {
+                    groupLookupIx++;
+                    string longFieldName = GetFieldName(oneTabInfo.TableName, oneTabInfo.Alias, OneField);
+                    if (grouping)
+                        { getGroupField(groupLookupIx, OneField, longFieldName); }
+                    else
+                        { bsqSelectClause += longFieldName + ", "; }
+                }
                 if (oneTabInfo.JoinType != null) { bsqFromClause += oneTabInfo.JoinType.ToUpper() + " "; }
                 bsqFromClause += oneTabInfo.TableName + " ";
                 if (oneTabInfo.Alias != "") {bsqFromClause += "AS " + oneTabInfo.Alias + " ";}
@@ -347,6 +356,22 @@ namespace AzulIQD
 
             bsqSelectClause = bsqSelectClause.Substring(0, bsqSelectClause.Length - 2);
             builtSQLquery = bsqSelectClause + bsqFromClause + bsqExtrasClause;
+        }
+
+        private void getGroupField(int groupLookupIx, string OneField, string longFieldName)
+        {
+            string gVal = "";
+            DataGridViewCell summOpt = getGB.gvFieldSummaries.Rows[groupLookupIx].Cells[1];
+            try { gVal = summOpt.Value.ToString(); } catch { }
+            if ((gVal != "") && (gVal != "Group By"))
+            {
+                bsqSelectClause += gVal + "(" + longFieldName + ") AS " + gVal + "_" 
+                    + OneField.Substring(0, OneField.IndexOf("\t")) + ", ";
+            }
+            else
+            {
+                bsqSelectClause += longFieldName + ", ";
+            }
         }
 
         private string GetFieldName(string tabName, string Alias, string OneField)
