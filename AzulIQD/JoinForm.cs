@@ -312,12 +312,15 @@ namespace AzulIQD
             builtSQLquery = "";
             bsqSelectClause = "SELECT ";
             bsqFromClause = "\r\nFROM ";
+
+            if (getQO.btnAlias.Checked) { BuildTableAliases(); }
+
             if (grouping)
-            { bsqExtrasClause = "\r\nWHERE (<add your criteria here>)\r\n-- "
-                    + "HAVING (<optionally add summary-criteria here>)"; }
+            { bsqExtrasClause = "\r\nWHERE (<add your criteria here>)\r\n"
+                    + BuildGroupByClause()
+                    + "\r\n-- HAVING (<optionally add summary-criteria here>)"; }
             else { bsqExtrasClause = "\r\nWHERE (<add your criteria here>)\r\n-- " 
                     + "ORDER BY <optionally add sort fields>"; }
-            if (getQO.btnAlias.Checked) { BuildTableAliases();}
 
             if (getQO.btnDistinct.Checked) { bsqSelectClause += "DISTINCT "; }
             if (getQO.btnTop20.Checked) { bsqSelectClause += "TOP(20) "; }
@@ -356,6 +359,31 @@ namespace AzulIQD
 
             bsqSelectClause = bsqSelectClause.Substring(0, bsqSelectClause.Length - 2);
             builtSQLquery = bsqSelectClause + bsqFromClause + bsqExtrasClause;
+        }
+
+        private string BuildGroupByClause()
+        {
+            string GBclause = "GROUP BY ";
+            string fieldsNotMentioned = "";
+            int groupLookupIx = -1;
+            
+            foreach (queryTabInfo oneTabInfo in queryParms)
+            {
+                foreach (string OneField in oneTabInfo.showColumns)
+                {
+                    groupLookupIx++;
+                    string longFieldName = GetFieldName(oneTabInfo.TableName, oneTabInfo.Alias, OneField);
+                    DataGridViewCell summOpt = getGB.gvFieldSummaries.Rows[groupLookupIx].Cells[1];
+                    string gVal = "";
+                    try { gVal = summOpt.Value.ToString(); } catch { }
+                    if (gVal == "Group By") { GBclause += longFieldName + ", "; }
+                    if (gVal == "") { fieldsNotMentioned += longFieldName + ", "; }
+                }
+            }
+            GBclause += fieldsNotMentioned;
+            GBclause = GBclause.Substring(0, GBclause.Length - 2);
+
+            return GBclause;
         }
 
         private void getGroupField(int groupLookupIx, string OneField, string longFieldName)
