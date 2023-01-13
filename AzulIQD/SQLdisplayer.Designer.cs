@@ -40,6 +40,9 @@
             // 
             this.tbSQLstatement.AcceptsReturn = true;
             this.tbSQLstatement.AcceptsTab = true;
+            this.tbSQLstatement.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbSQLstatement.Font = new System.Drawing.Font("Courier New", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbSQLstatement.Location = new System.Drawing.Point(25, 34);
             this.tbSQLstatement.Multiline = true;
@@ -50,6 +53,7 @@
             // 
             // btnCopy
             // 
+            this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCopy.Location = new System.Drawing.Point(727, 423);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(134, 39);
@@ -60,6 +64,7 @@
             // 
             // lblTextCopied
             // 
+            this.lblTextCopied.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.lblTextCopied.AutoSize = true;
             this.lblTextCopied.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTextCopied.Location = new System.Drawing.Point(268, 428);
@@ -76,6 +81,7 @@
             // 
             // btnExit
             // 
+            this.btnExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnExit.Location = new System.Drawing.Point(533, 423);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(134, 39);

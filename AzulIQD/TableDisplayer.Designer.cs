@@ -49,7 +49,7 @@
             this.lbTableListing.FormattingEnabled = true;
             this.lbTableListing.Location = new System.Drawing.Point(25, 69);
             this.lbTableListing.Name = "lbTableListing";
-            this.lbTableListing.Size = new System.Drawing.Size(386, 579);
+            this.lbTableListing.Size = new System.Drawing.Size(386, 571);
             this.lbTableListing.TabIndex = 0;
             this.lbTableListing.UseCompatibleTextRendering = true;
             this.lbTableListing.Click += new System.EventHandler(this.lbTableListing_Click);
@@ -143,7 +143,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblStillLoading);
             this.Controls.Add(this.lbTableListing);
+            this.Location = new System.Drawing.Point(400, 100);
             this.Name = "TableDisplayer";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = " Add Tables";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TableDisplayer_FormClosing);
             this.Load += new System.EventHandler(this.TableDisplayer_Load);

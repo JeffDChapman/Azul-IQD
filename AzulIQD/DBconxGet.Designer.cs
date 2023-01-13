@@ -215,6 +215,7 @@ namespace AzulIQD
             this.Controls.Add(this.lblServerOrPath);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "DBconxGet";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Connect to a Database";
             this.Activated += new System.EventHandler(this.DBconxGet_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DBconxGet_FormClosing);
