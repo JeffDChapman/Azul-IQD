@@ -8,3 +8,21 @@ C:\Users\JeffC\Documents\Visual Studio 2013\Projects\AliasGen\AliasGen\obj\Debug
 C:\Users\JeffC\Documents\Visual Studio 2013\Projects\AliasGen\AliasGen\obj\Debug\AzulIQD.csproj.GenerateResource.Cache
 C:\Users\JeffC\Documents\Visual Studio 2013\Projects\AliasGen\AliasGen\obj\Debug\AliasGen.exe
 C:\Users\JeffC\Documents\Visual Studio 2013\Projects\AliasGen\AliasGen\obj\Debug\AliasGen.pdb
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\bin\Debug\AzulIQD.exe.config
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\bin\Debug\AzulIQD.exe
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\bin\Debug\AzulIQD.pdb
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.csproj.AssemblyReference.cache
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.csproj.SuggestedBindingRedirects.cache
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.ColumnChooser.resources
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.DBconxGet.resources
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.GroupForm.resources
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.InputName.resources
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.JoinForm.resources
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.Properties.Resources.resources
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.QueryOptions.resources
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.SQLdisplayer.resources
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.TableDisplayer.resources
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.csproj.GenerateResource.cache
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.csproj.CoreCompileInputs.cache
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.exe
+C:\Users\JeffC\Documents\GitHub\Azul-IQD\AzulIQD\obj\Debug\AzulIQD.pdb
