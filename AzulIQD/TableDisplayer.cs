@@ -8,11 +8,8 @@ namespace AzulIQD
 {
     public partial class TableDisplayer : Form
     {
-        public struct FormLoc
-        {
-            public int topForm;
-            public int LeftForm;
-        }
+
+        #region Private variables 
         private string myConxString;
         private string AzureServer;
         private string myAzureDBName;
@@ -24,10 +21,15 @@ namespace AzulIQD
         private bool dbIsConnected;
         private bool AzureConx = false;
         private bool testing = true;
+        #endregion
         public IDbConnection DBConnection { get; set; }
+        public struct FormLoc
+        {
+            public int topForm;
+            public int LeftForm;
+        }
         public FormLoc PlaceForms = new FormLoc();
         public bool RemoteConx = true;
-
         public TableDisplayer()
         {
             InitializeComponent();
@@ -95,7 +97,7 @@ namespace AzulIQD
 
         private void LoadTableList()
         {
-            ConnectToAzure();
+            ConnectToDatabase();
 
             if (!dbIsConnected)
             {
@@ -123,7 +125,7 @@ namespace AzulIQD
             this.Cursor = Cursors.Arrow;
         }
 
-        private void ConnectToAzure()
+        private void ConnectToDatabase()
         {
             this.Cursor = Cursors.WaitCursor;
             if (myDBtype == "MS Access")
@@ -155,7 +157,7 @@ namespace AzulIQD
                 {
                     dbIsConnected = false;
                     this.Cursor = Cursors.Arrow;
-                    MessageBox.Show("Unable to connect to Azure", "Connect Error");
+                    MessageBox.Show("Unable to connect to Database", "Connect Error");
                 }
             }
         }

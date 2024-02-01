@@ -22,15 +22,17 @@ namespace AzulIQD
             public List<string> showColumns;
         }
 
-        List<queryTabInfo> queryParms = new List<queryTabInfo>();
         public TableDisplayer frmTabDispParent;
         public List<String> passedJoinedTabs = new List<string>();
+
+        #region Private variables
+        private List<queryTabInfo> queryParms = new List<queryTabInfo>();
         private object TabThatNeedsCols;
-        private string getColsSQL;
+        //private string getColsSQL;
         private IDbConnection DBConnection;
         private bool RemoteConx;
         private DataTable colListing = new DataTable();
-        private int colCounter;
+        //private int colCounter;
         private ColumnChooser myCC;
         private string LeftSideJoinTab;
         private string RightSideJoinTab;
@@ -43,6 +45,7 @@ namespace AzulIQD
         private QueryOptions getQO;
         private int qpIndex;
         private GroupForm getGB;
+        #endregion
 
         public JoinForm(TableDisplayer parent)
         {
@@ -79,7 +82,7 @@ namespace AzulIQD
 
             if (GetReturnedColumns().Count == 0)
             {
-                // what happens if they didn't select any columns the first time?
+                // TODO: what happens if they didn't select any columns the first time?
             }
 
             var myqTinfo = new queryTabInfo();
@@ -93,8 +96,6 @@ namespace AzulIQD
         private ColumnChooser GetTheColumns()
         {
             myCC = new ColumnChooser(TabThatNeedsCols.ToString(), this);
-
-            //oldWayToGetCols();
 
             DbCommand command = (DbCommand)DBConnection.CreateCommand();
             command.CommandText = "select * from " + TabThatNeedsCols.ToString() + " where 1 = 0";
@@ -480,7 +481,7 @@ namespace AzulIQD
 
             if (GetReturnedColumns().Count == 0)
             {
-                // what happens if they deselect all the columns?
+                // TODO: what happens if they deselect all the columns?
             }
 
             myTabInfo.showColumns = GetReturnedColumns();
