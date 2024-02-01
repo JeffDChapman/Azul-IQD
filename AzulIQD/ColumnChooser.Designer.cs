@@ -89,6 +89,7 @@
             this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnOK
             // 
@@ -137,6 +138,7 @@
             this.Name = "ColumnChooser";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Column Selector";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ColumnChooser_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
