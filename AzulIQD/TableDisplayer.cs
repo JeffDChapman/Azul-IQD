@@ -8,11 +8,8 @@ namespace AzulIQD
 {
     public partial class TableDisplayer : Form
     {
-        public struct FormLoc
-        {
-            public int topForm;
-            public int LeftForm;
-        }
+
+        #region Private variables 
         private string myConxString;
         private string AzureServer;
         private string myAzureDBName;
@@ -22,12 +19,18 @@ namespace AzulIQD
         private bool firstTimeThru = true;
         private JoinForm myJF;
         private bool dbIsConnected;
-        private bool AzureConx = false;
-        private bool testing = true;
+        //private bool AzureConx = false;
+        private bool testing = false;
+        #endregion
+        
         public IDbConnection DBConnection { get; set; }
+        public struct FormLoc
+        {
+            public int topForm;
+            public int LeftForm;
+        }
         public FormLoc PlaceForms = new FormLoc();
         public bool RemoteConx = true;
-
         public TableDisplayer()
         {
             InitializeComponent();
@@ -40,7 +43,7 @@ namespace AzulIQD
             myUserID = "";
             myPW = "";
 
-            if (!testing) { lblDBname_Click(this, null); }
+            //if (!testing) { lblDBname_Click(this, null); }
 
             PlaceForms.LeftForm = this.Left;
             PlaceForms.topForm = this.Top;
@@ -80,14 +83,21 @@ namespace AzulIQD
             myUserID = GetNewDB.tbLoginID.Text;
             myPW = GetNewDB.tbPW.Text;
             myDBtype = GetNewDB.tbDBtype.Text;
+            if (testing)
+            {
+                string showSets = AzureServer + " " + myAzureDBName + " " +
+                myUserID + " " + myPW + " " + myDBtype;
+                MessageBox.Show(showSets, "Status");
+            }
+
             if (myDBtype == "MS Access") 
             { 
-                AzureConx = false;
+                //AzureConx = false;
                 RemoteConx = false;
             }
                 else 
             { 
-                AzureConx = true;
+                //AzureConx = true;
                 RemoteConx = true;
             }
             this.lblDBname.Text = "????";
@@ -95,7 +105,7 @@ namespace AzulIQD
 
         private void LoadTableList()
         {
-            ConnectToAzure();
+            ConnectToDatabase();
 
             if (!dbIsConnected)
             {
@@ -123,7 +133,7 @@ namespace AzulIQD
             this.Cursor = Cursors.Arrow;
         }
 
-        private void ConnectToAzure()
+        private void ConnectToDatabase()
         {
             this.Cursor = Cursors.WaitCursor;
             if (myDBtype == "MS Access")
@@ -144,18 +154,26 @@ namespace AzulIQD
                         { DBConnection = new SqlConnection(myConxString); }
                     else 
                         { DBConnection = new OleDbConnection(myConxString); }
+                    if (testing) { MessageBox.Show("Attempting DB Open", "Status"); }
                     DBConnection.Open();
                     dbIsConnected = true;
+                    if (testing) { MessageBox.Show("DB Open was OK", "Status"); }
                     if (RemoteConx)
                         { this.lblDBname.Text = DBConnection.Database; }
                     else 
                         { this.lblDBname.Text = myAzureDBName; }
                 }
-                catch
+                catch (Exception e)
                 {
                     dbIsConnected = false;
                     this.Cursor = Cursors.Arrow;
-                    MessageBox.Show("Unable to connect to Azure", "Connect Error");
+                    MessageBox.Show("Unable to connect to Database", "Connect Error");
+                    if (testing)
+                    {
+                        string innerErr = e.InnerException.Message.ToString();
+                        string dbError = e.Message + Environment.NewLine + innerErr;
+                        MessageBox.Show(dbError, "Connect Error");
+                    }
                 }
             }
         }

@@ -22,15 +22,17 @@ namespace AzulIQD
             public List<string> showColumns;
         }
 
-        List<queryTabInfo> queryParms = new List<queryTabInfo>();
         public TableDisplayer frmTabDispParent;
         public List<String> passedJoinedTabs = new List<string>();
+
+        #region Private variables
+        private List<queryTabInfo> queryParms = new List<queryTabInfo>();
         private object TabThatNeedsCols;
-        private string getColsSQL;
-        private IDbConnection DBConnection;
-        private bool RemoteConx;
+        //private string getColsSQL;
+        public IDbConnection DBConnection;
+        public bool RemoteConx;
         private DataTable colListing = new DataTable();
-        private int colCounter;
+        //private int colCounter;
         private ColumnChooser myCC;
         private string LeftSideJoinTab;
         private string RightSideJoinTab;
@@ -43,6 +45,7 @@ namespace AzulIQD
         private QueryOptions getQO;
         private int qpIndex;
         private GroupForm getGB;
+        #endregion
 
         public JoinForm(TableDisplayer parent)
         {
@@ -79,7 +82,7 @@ namespace AzulIQD
 
             if (GetReturnedColumns().Count == 0)
             {
-                // what happens if they didn't select any columns the first time?
+                // TODO: what happens if they didn't select any columns the first time?
             }
 
             var myqTinfo = new queryTabInfo();
@@ -93,8 +96,6 @@ namespace AzulIQD
         private ColumnChooser GetTheColumns()
         {
             myCC = new ColumnChooser(TabThatNeedsCols.ToString(), this);
-
-            //oldWayToGetCols();
 
             DbCommand command = (DbCommand)DBConnection.CreateCommand();
             command.CommandText = "select * from " + TabThatNeedsCols.ToString() + " where 1 = 0";
@@ -323,7 +324,13 @@ namespace AzulIQD
                     + "ORDER BY <optionally add sort fields>"; }
 
             if (getQO.btnDistinct.Checked) { bsqSelectClause += "DISTINCT "; }
-            if (getQO.btnTop20.Checked) { bsqSelectClause += "TOP(20) "; }
+            if (getQO.btnTop20.Checked) 
+            { 
+                if (RemoteConx)
+                    { bsqSelectClause += "TOP(20) "; }
+                else
+                    { bsqSelectClause += "TOP 20 "; }
+            }
 
             int groupLookupIx = -1;
             foreach(queryTabInfo oneTabInfo in queryParms)
@@ -340,7 +347,7 @@ namespace AzulIQD
                 if (oneTabInfo.JoinType != null) { bsqFromClause += oneTabInfo.JoinType.ToUpper() + " "; }
                 bsqFromClause += oneTabInfo.TableName + " ";
                 if (oneTabInfo.Alias != "") {bsqFromClause += "AS " + oneTabInfo.Alias + " ";}
-                if (getQO.btnNolock.Checked) { bsqFromClause += "WITH(NOLOCK) "; }
+                if ((getQO.btnNolock.Checked) && RemoteConx) { bsqFromClause += "WITH(NOLOCK) "; }
 
                 if (oneTabInfo.JoinType != null)
                 {
@@ -480,7 +487,7 @@ namespace AzulIQD
 
             if (GetReturnedColumns().Count == 0)
             {
-                // what happens if they deselect all the columns?
+                // TODO: what happens if they deselect all the columns?
             }
 
             myTabInfo.showColumns = GetReturnedColumns();

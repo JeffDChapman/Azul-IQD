@@ -8,12 +8,13 @@ namespace AzulIQD
     public partial class DBconxGet : Form
     {
         public bool restoredDBinfo;
-        public bool testing = false;
+        private bool testing = false;
         public string DataProvider = "System.Data.OleDb";
 
         public DBconxGet()
         {
             InitializeComponent();
+            if (testing) { fillDBtypePulldown(); }
         }
 
         public void fillDBtypePulldown()

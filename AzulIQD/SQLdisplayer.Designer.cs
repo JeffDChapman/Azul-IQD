@@ -34,6 +34,7 @@
             this.lblTextCopied = new System.Windows.Forms.Label();
             this.tmrCopied = new System.Windows.Forms.Timer(this.components);
             this.btnExit = new System.Windows.Forms.Button();
+            this.btnRunSql = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tbSQLstatement
@@ -90,11 +91,23 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
+            // btnRunSql
+            // 
+            this.btnRunSql.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRunSql.Location = new System.Drawing.Point(25, 423);
+            this.btnRunSql.Name = "btnRunSql";
+            this.btnRunSql.Size = new System.Drawing.Size(134, 39);
+            this.btnRunSql.TabIndex = 4;
+            this.btnRunSql.Text = "Run";
+            this.btnRunSql.UseVisualStyleBackColor = true;
+            this.btnRunSql.Click += new System.EventHandler(this.btnRunSql_Click);
+            // 
             // SQLdisplayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(888, 480);
+            this.Controls.Add(this.btnRunSql);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.lblTextCopied);
             this.Controls.Add(this.btnCopy);
@@ -114,6 +127,6 @@
         private System.Windows.Forms.Label lblTextCopied;
         private System.Windows.Forms.Timer tmrCopied;
         private System.Windows.Forms.Button btnExit;
-
+        private System.Windows.Forms.Button btnRunSql;
     }
 }
