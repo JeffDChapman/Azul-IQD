@@ -22,6 +22,7 @@ namespace AzulIQD
         //private bool AzureConx = false;
         private bool testing = false;
         #endregion
+        
         public IDbConnection DBConnection { get; set; }
         public struct FormLoc
         {

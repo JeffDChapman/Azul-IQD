@@ -29,8 +29,8 @@ namespace AzulIQD
         private List<queryTabInfo> queryParms = new List<queryTabInfo>();
         private object TabThatNeedsCols;
         //private string getColsSQL;
-        private IDbConnection DBConnection;
-        private bool RemoteConx;
+        public IDbConnection DBConnection;
+        public bool RemoteConx;
         private DataTable colListing = new DataTable();
         //private int colCounter;
         private ColumnChooser myCC;
@@ -324,7 +324,13 @@ namespace AzulIQD
                     + "ORDER BY <optionally add sort fields>"; }
 
             if (getQO.btnDistinct.Checked) { bsqSelectClause += "DISTINCT "; }
-            if (getQO.btnTop20.Checked) { bsqSelectClause += "TOP(20) "; }
+            if (getQO.btnTop20.Checked) 
+            { 
+                if (RemoteConx)
+                    { bsqSelectClause += "TOP(20) "; }
+                else
+                    { bsqSelectClause += "TOP 20 "; }
+            }
 
             int groupLookupIx = -1;
             foreach(queryTabInfo oneTabInfo in queryParms)
@@ -341,7 +347,7 @@ namespace AzulIQD
                 if (oneTabInfo.JoinType != null) { bsqFromClause += oneTabInfo.JoinType.ToUpper() + " "; }
                 bsqFromClause += oneTabInfo.TableName + " ";
                 if (oneTabInfo.Alias != "") {bsqFromClause += "AS " + oneTabInfo.Alias + " ";}
-                if (getQO.btnNolock.Checked) { bsqFromClause += "WITH(NOLOCK) "; }
+                if ((getQO.btnNolock.Checked) && RemoteConx) { bsqFromClause += "WITH(NOLOCK) "; }
 
                 if (oneTabInfo.JoinType != null)
                 {

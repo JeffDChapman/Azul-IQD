@@ -13,6 +13,8 @@ namespace AzulIQD
     {
         private int blinkCounter = 0;
         private JoinForm myJF;
+        public IDbConnection DBConnection;
+        public bool RemoteConx;
 
         public SQLdisplayer(JoinForm parent)
         {
@@ -20,6 +22,8 @@ namespace AzulIQD
             myJF = parent;
             this.Top = parent.frmTabDispParent.PlaceForms.topForm;
             this.Left = parent.frmTabDispParent.PlaceForms.LeftForm;
+            DBConnection = parent.DBConnection;
+            RemoteConx = parent.RemoteConx;
         }
 
         private void btnCopy_Click(object sender, EventArgs e)
@@ -53,6 +57,12 @@ namespace AzulIQD
             myJF.frmTabDispParent.Close();
             this.Close();
             Application.Exit();
+        }
+
+        private void btnRunSql_Click(object sender, EventArgs e)
+        {
+            DataForm myRunData = new DataForm(this);
+            myRunData.ShowDialog();
         }
     }
 }
