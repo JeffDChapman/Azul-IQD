@@ -29,8 +29,8 @@ namespace AzulIQD
         private List<queryTabInfo> queryParms = new List<queryTabInfo>();
         private object TabThatNeedsCols;
         //private string getColsSQL;
-        public IDbConnection DBConnection;
-        public bool RemoteConx;
+        //public IDbConnection DBConnection;
+        //public bool RemoteConx;
         private DataTable colListing = new DataTable();
         //private int colCounter;
         private ColumnChooser myCC;
@@ -51,8 +51,8 @@ namespace AzulIQD
         {
             InitializeComponent();
             frmTabDispParent = parent;
-            DBConnection = parent.DBConnection;
-            RemoteConx = parent.RemoteConx;
+            //DBConnection = parent.DBConnection;
+            //RemoteConx = parent.RemoteConx;
         }
 
         public void JFinitialize()
@@ -97,7 +97,7 @@ namespace AzulIQD
         {
             myCC = new ColumnChooser(TabThatNeedsCols.ToString(), this);
 
-            DbCommand command = (DbCommand)DBConnection.CreateCommand();
+            DbCommand command = (DbCommand)Program.DBConnection.CreateCommand();
             command.CommandText = "select * from " + TabThatNeedsCols.ToString() + " where 1 = 0";
             command.CommandType = CommandType.Text;
             DbDataReader reader = command.ExecuteReader();
@@ -105,7 +105,7 @@ namespace AzulIQD
             DataTable colListing = reader.GetSchemaTable();
             myCC.lbColumnLister.Items.Clear();
             int itemForDataType = 5;
-            if (RemoteConx) { itemForDataType = 12; }
+            if (Program.RemoteConx) { itemForDataType = 12; }
 
             foreach (DataRow oneCol in colListing.Rows)
             { myCC.lbColumnLister.Items.Add(oneCol.ItemArray[0] + "\t"
@@ -326,7 +326,7 @@ namespace AzulIQD
             if (getQO.btnDistinct.Checked) { bsqSelectClause += "DISTINCT "; }
             if (getQO.btnTop20.Checked) 
             { 
-                if (RemoteConx)
+                if (Program.RemoteConx)
                     { bsqSelectClause += "TOP(20) "; }
                 else
                     { bsqSelectClause += "TOP 20 "; }
@@ -347,7 +347,8 @@ namespace AzulIQD
                 if (oneTabInfo.JoinType != null) { bsqFromClause += oneTabInfo.JoinType.ToUpper() + " "; }
                 bsqFromClause += oneTabInfo.TableName + " ";
                 if (oneTabInfo.Alias != "") {bsqFromClause += "AS " + oneTabInfo.Alias + " ";}
-                if ((getQO.btnNolock.Checked) && RemoteConx) { bsqFromClause += "WITH(NOLOCK) "; }
+                if ((getQO.btnNolock.Checked) && Program.RemoteConx) 
+                    { bsqFromClause += "WITH(NOLOCK) "; }
 
                 if (oneTabInfo.JoinType != null)
                 {

@@ -19,18 +19,16 @@ namespace AzulIQD
         private bool firstTimeThru = true;
         private JoinForm myJF;
         private bool dbIsConnected;
-        //private bool AzureConx = false;
         private bool testing = false;
         #endregion
         
-        public IDbConnection DBConnection { get; set; }
         public struct FormLoc
         {
             public int topForm;
             public int LeftForm;
         }
         public FormLoc PlaceForms = new FormLoc();
-        public bool RemoteConx = true;
+
         public TableDisplayer()
         {
             InitializeComponent();
@@ -42,8 +40,6 @@ namespace AzulIQD
             myAzureDBName = "";
             myUserID = "";
             myPW = "";
-
-            //if (!testing) { lblDBname_Click(this, null); }
 
             PlaceForms.LeftForm = this.Left;
             PlaceForms.topForm = this.Top;
@@ -91,21 +87,15 @@ namespace AzulIQD
             }
 
             if (myDBtype == "MS Access") 
-            { 
-                //AzureConx = false;
-                RemoteConx = false;
-            }
-                else 
-            { 
-                //AzureConx = true;
-                RemoteConx = true;
-            }
+                { Program.RemoteConx = false; }
+            else 
+                { Program.RemoteConx = true; }
             this.lblDBname.Text = "????";
         }
 
         private void LoadTableList()
         {
-            ConnectToDatabase();
+            SetupDBconx();
 
             if (!dbIsConnected)
             {
@@ -113,12 +103,12 @@ namespace AzulIQD
                 return; }
 
             DataTable t = new DataTable();
-            if (RemoteConx)
-                { SqlConnection useSQLcx = (SqlConnection)DBConnection;
+            if (Program.RemoteConx)
+                { SqlConnection useSQLcx = (SqlConnection)Program.DBConnection;
                 t = useSQLcx.GetSchema("Tables");
             }
             else 
-                { OleDbConnection useSQLcx = (OleDbConnection)DBConnection;
+                { OleDbConnection useSQLcx = (OleDbConnection)Program.DBConnection;
                 t = useSQLcx.GetSchema("Tables");
             }
             
@@ -133,7 +123,7 @@ namespace AzulIQD
             this.Cursor = Cursors.Arrow;
         }
 
-        private void ConnectToDatabase()
+        private void SetupDBconx()
         {
             this.Cursor = Cursors.WaitCursor;
             if (myDBtype == "MS Access")
@@ -146,34 +136,39 @@ namespace AzulIQD
                 { nonAccessConx(); }
 
             // check if connected to the DB 
-            if (DBConnection == null || !checkDBconnected())
+            if (Program.DBConnection == null || !checkDBconnected())
             {
-                try
+                TryDBconnect();
+            }
+        }
+
+        private void TryDBconnect()
+        {
+            try
+            {
+                if (Program.RemoteConx)
+                    { Program.DBConnection = new SqlConnection(myConxString); }
+                else
+                    { Program.DBConnection = new OleDbConnection(myConxString); }
+                if (testing) { MessageBox.Show("Attempting DB Open", "Status"); }
+                Program.DBConnection.Open();
+                dbIsConnected = true;
+                if (testing) { MessageBox.Show("DB Open was OK", "Status"); }
+                if (Program.RemoteConx)
+                    { this.lblDBname.Text = Program.DBConnection.Database; }
+                else
+                    { this.lblDBname.Text = myAzureDBName; }
+            }
+            catch (Exception e)
+            {
+                dbIsConnected = false;
+                this.Cursor = Cursors.Arrow;
+                MessageBox.Show("Unable to connect to Database", "Connect Error");
+                if (testing)
                 {
-                    if (RemoteConx)
-                        { DBConnection = new SqlConnection(myConxString); }
-                    else 
-                        { DBConnection = new OleDbConnection(myConxString); }
-                    if (testing) { MessageBox.Show("Attempting DB Open", "Status"); }
-                    DBConnection.Open();
-                    dbIsConnected = true;
-                    if (testing) { MessageBox.Show("DB Open was OK", "Status"); }
-                    if (RemoteConx)
-                        { this.lblDBname.Text = DBConnection.Database; }
-                    else 
-                        { this.lblDBname.Text = myAzureDBName; }
-                }
-                catch (Exception e)
-                {
-                    dbIsConnected = false;
-                    this.Cursor = Cursors.Arrow;
-                    MessageBox.Show("Unable to connect to Database", "Connect Error");
-                    if (testing)
-                    {
-                        string innerErr = e.InnerException.Message.ToString();
-                        string dbError = e.Message + Environment.NewLine + innerErr;
-                        MessageBox.Show(dbError, "Connect Error");
-                    }
+                    string innerErr = e.InnerException.Message.ToString();
+                    string dbError = e.Message + Environment.NewLine + innerErr;
+                    MessageBox.Show(dbError, "Connect Error");
                 }
             }
         }
@@ -203,8 +198,8 @@ namespace AzulIQD
             try
             {
                 IDbConnection myTestCnx;
-                // TODO: this needs that factory provider stuff...
-                if (RemoteConx)
+                
+                if (Program.RemoteConx)
                      { myTestCnx = new SqlConnection(myConxString); }
                 else
                      { myTestCnx = new OleDbConnection(myConxString); }
@@ -266,8 +261,8 @@ namespace AzulIQD
         {
             try
             {
-                DBConnection.Close();
-                DBConnection = null;
+                Program.DBConnection.Close();
+                Program.DBConnection = null;
             }
             catch { }
             Application.Exit();
@@ -278,6 +273,5 @@ namespace AzulIQD
             PlaceForms.LeftForm = this.Left;
             PlaceForms.topForm = this.Top;
         }
-
     }
 }

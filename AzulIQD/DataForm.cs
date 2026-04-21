@@ -11,8 +11,6 @@ namespace AzulIQD
     public partial class DataForm : Form
     {
         private new SQLdisplayer ParentForm;
-        private IDbConnection DBConnection;
-        private bool RemoteConx;
         private IDbConnection myConnection;
 
         public DataForm()
@@ -28,21 +26,19 @@ namespace AzulIQD
 
         private void DataForm_Load(object sender, EventArgs e)
         {
-            DBConnection = ParentForm.DBConnection;
-            RemoteConx = ParentForm.RemoteConx;
-            string connectionString = DBConnection.ConnectionString;
+            string connectionString = Program.DBConnection.ConnectionString;
             string selectSql = ParentForm.tbSQLstatement.Text.Replace("\r\n", " ");
 
             // Create DataSet
             DataSet ds = new DataSet();
 
             // Create DataAdapter 
-            if (RemoteConx)
+            if (Program.RemoteConx)
                 { myConnection = new SqlConnection(connectionString); }
             else
                 { myConnection = new OleDbConnection(connectionString); }
 
-            if (RemoteConx)
+            if (Program.RemoteConx)
             {
                 SqlDataAdapter adapter = new SqlDataAdapter(selectSql, (SqlConnection)myConnection);
                 adapter.Fill(ds, "mySQLData");
